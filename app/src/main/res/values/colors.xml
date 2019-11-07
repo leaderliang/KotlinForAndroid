@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+
+    <color name="wait">#8F9DEE</color>
+    <color name="playback">#303F9F</color>
+    <color name="live">#FF4081</color>
+
+
 </resources>
