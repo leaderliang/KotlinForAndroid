@@ -60,6 +60,9 @@ public class LessonActivity extends AppCompatActivity implements BaseView<Lesson
         refreshLayout.setRefreshing(true);
 
         getPresenter().fetchData();
+
+
+
     }
 
     public void showResult(List<Lesson> lessons) {

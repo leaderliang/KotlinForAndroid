@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
-
+    
     private val usernameKey = "username"
     private val passwordKey = "password"
 
@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mEtUsername: EditText
     private lateinit var mEtPassword: EditText
     private lateinit var mEtCode: EditText
+
+//    val setlll = setOf<>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +52,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         imgCode.setOnClickListener(this)
 
     }
+
+    /**
+     * 声明 伴生对象
+     */
+    companion object {
+        //编译期常量
+         const val a = 3
+
+        fun doPlus(a: Int): Int{
+            return a + 3
+        }
+    }
+
 
     override fun onClick(v: View?) {
         //To change body of created functions use File | Settings | File Templates.
