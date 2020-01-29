@@ -26,12 +26,6 @@ package com.android.kotlinpractice.builtin_types
  */
 fun main(args: Array<String>): Unit {
 
-    // 函数的引用：类似 C 语言中的函数指针，可用于函数传递
-    // 上面三个的函数 引用 分别是
-    // ::food
-    // ::food
-    // Food::banana
-
 
     // 定义变量去接收上面的引用
     val f: () -> Unit = ::food
@@ -99,6 +93,16 @@ class Food {
     }
 
 }
+
+// 函数的引用：
+// 类似 C 语言中的函数指针，可用于函数传递
+// 上面三个的函数 引用 分别是
+// ::food
+// ::food
+// Food::banana
+
+
+
 
 
 fun testFun(f: (Food, String, Long) -> Any) {
