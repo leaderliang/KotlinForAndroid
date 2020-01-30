@@ -9,6 +9,14 @@ import com.android.kotlinpractice.types.classes.kotlin.SimpleInterface
 /**
  * TODO
  *
+ *
+ *
+ * null 类型转换方面的一些建议
+ * 尽可能使用 val 来声明不可变引用，让程序的含义更加清晰确定。
+ * 尽可能减少函数对外部变量的访问，也为函数式编程提供基础。
+ * 必要时创建局部变量指向外部变量，避免因他变化引起程序错误。
+ *
+ *
  * @author dev.liang <a href="mailto:dev.liang@outlook.com">Contact me.</a>
  * @version 1.0
  * @since 2020/01/27 21:32
@@ -59,6 +67,9 @@ fun main() {
 
     var simpleInterface: SimpleInterface = com.android.kotlinpractice.types.classes.kotlin.Person(1,"dev",1)
     if(simpleInterface is Person){
+        // as? 安全类型转换，当失败返回会 null
+        println((simpleInterface as? com.android.kotlinpractice.types.classes.kotlin.Person)?.name)
+
         println((simpleInterface as com.android.kotlinpractice.types.classes.kotlin.Person).name)
         // 自动转换类型，和 java 相比
         println(simpleInterface.name)
@@ -83,6 +94,7 @@ fun main() {
     if(tag != null){ // 虽然判断不为空，但其他线可能对他进行修改
         println(tag!!.length)
     }
+
 
 
 

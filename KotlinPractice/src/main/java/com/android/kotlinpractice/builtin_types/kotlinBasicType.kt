@@ -1,5 +1,7 @@
 package com.android.kotlinpractice.builtin_types
 
+import kotlin.reflect.KProperty
+
 /**
  * TODO
  * 数组相关
@@ -9,7 +11,31 @@ package com.android.kotlinpractice.builtin_types
  */
 var age: Int = 18
 
+
+
+
+class A{
+    // 这块不能叫常量，应该叫  只读变量；
+    // 每次取值不一定相同。
+    val bb:Int
+
+    get() {
+        return (Math.random() * 100).toInt()
+    }
+}
+
 fun main() {
+
+
+    // val b = 3 和在 java 中声明 final int b = 3 ；如果都是声明在函数里作为局部变量存在的话，是等价的。可以叫常量
+    val b = 3
+    // 但在 kotlin 中，用 val 定义的都叫 只读变量；主要是因为作为属性，或者顶级属性，
+
+
+
+
+
+
 //    println(doSomething(2))
 
     // 打印范围，通过使用 字符串模板 ${} 代替 java 中的 +

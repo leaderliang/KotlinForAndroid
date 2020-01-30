@@ -13,12 +13,6 @@ fun main() {
 
 
 
-
-
-
-
-
-
     val kotliner: Kotliner = Person("benny", 20)
     if(kotliner is Person){
         println((kotliner as? Person)?.name)
