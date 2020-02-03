@@ -30,7 +30,7 @@ dependencies {
     api "com.google.code.gson:gson:2.8.5"
     api 'com.squareup.okhttp3:okhttp:3.9.0'
     api 'androidx.recyclerview:recyclerview:1.0.0'
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
 
     testImplementation 'junit:junit:4.12'
