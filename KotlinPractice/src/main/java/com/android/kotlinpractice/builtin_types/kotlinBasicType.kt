@@ -12,16 +12,13 @@ import kotlin.reflect.KProperty
 var age: Int = 18
 
 
-
-
-class A{
+class A {
     // 这块不能叫常量，应该叫  只读变量；
     // 每次取值不一定相同。
-    val bb:Int
-
-    get() {
-        return (Math.random() * 100).toInt()
-    }
+    val bb: Int
+        get() {
+            return (Math.random() * 100).toInt()
+        }
 }
 
 fun main() {
@@ -30,10 +27,6 @@ fun main() {
     // val b = 3 和在 java 中声明 final int b = 3 ；如果都是声明在函数里作为局部变量存在的话，是等价的。可以叫常量
     val b = 3
     // 但在 kotlin 中，用 val 定义的都叫 只读变量；主要是因为作为属性，或者顶级属性，
-
-
-
-
 
 
 //    println(doSomething(2))
@@ -88,20 +81,13 @@ fun main() {
     }
 
     // in 数组的包含关系，这个 in 表示 包含与被包含
-    if(1f in e){
+    if (1f in e) {
         println("1f in e -> true")
     }
 
-    if(1.2f !in e){
+    if (1.2f !in e) {
         println("1f in e -> false")
     }
-
-
-
-
-
-
-
 
 
 }
@@ -109,6 +95,28 @@ fun main() {
 
 fun doSomething(i: Int): Int {
     return i + 1 + age
+}
+
+
+fun aboutArray() {
+    // 整型 ---> java int[]
+    val intArray = IntArray(5) {
+        it + 1
+    }
+
+    val charArray = CharArray(5) {
+        3.toChar()
+    }
+
+    // 整型装箱 ---> java Char[]
+    val mIntArray = Array<Int>(5) { 2 }
+
+    // 数组的创建
+//    it 当前元素对应的 index 的值
+    val c = intArrayOf(1, 2, 3, 4, 5)
+    val c1 = IntArray(5) { it + 1 }
+
+
 }
 
 

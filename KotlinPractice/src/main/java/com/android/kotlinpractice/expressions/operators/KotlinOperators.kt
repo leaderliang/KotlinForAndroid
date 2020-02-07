@@ -1,7 +1,9 @@
 package com.android.kotlinpractice.expressions.operators
 
 /**
- * 运算符 和 中缀表达式（有一个 receiver 和 只有一个参数 就是中缀表达式）
+ * 运算符 和
+ *
+ * 中缀表达式（有一个 receiver 和 只有一个参数 就是中缀表达式）
  */
 fun main() {
     //https://kotlinlang.org/docs/reference/operator-overloading.html
@@ -70,6 +72,8 @@ fun main() {
 //    var c = IntArray(5) { (it + 1) * 3 }
 //    val array = Array<String>(5,{"123"})
     val array = Array<String>(5) { "123" }
+
+    IntArray(4)
     println(array.contentToString())
 
 }

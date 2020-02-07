@@ -21,6 +21,37 @@ package com.android.kotlinpractice.builtin_types
  */
 
 
+
+// 函数的类型
+// 返回值类型 () -> Unit
+fun food() {
+}
+
+// 返回值类型 (Int)-> String
+fun food(nameId: Int): String {
+    return ""
+}
+
+// Food 是 banner 的 receiver
+class Food {
+    // 返回值类型   Food.(String,Long) -> Any   ==》  (Food,String,Long) -> Any
+    fun banana(weight: String, length: Long): Any {
+        return ""
+    }
+
+}
+
+// 函数的引用：
+// 类似 C 语言中的函数指针，可用于函数传递
+// 上面三个的 函数 引用 分别是
+// ::food
+// ::food
+// Food::banana
+
+
+
+
+
 /**
  * vararg 多参数（变长参数）
  */
@@ -30,6 +61,7 @@ fun main(args: Array<String>): Unit {
     // 定义变量去接收上面的引用
     val f: () -> Unit = ::food
     val f1: (Int) -> String = ::food // 可以简写为 val f1 = ::food
+    val ff : Int.() -> String = ::food // 上面的也可以这样写
 //    val f1 = ::food
 
     // 这个有 三 种写法
@@ -75,40 +107,14 @@ fun main(args: Array<String>): Unit {
 }
 
 
-// 函数的类型
-// 返回值类型 () -> Unit
-fun food() {
-}
-
-// 返回值类型 (Int)-> String
-fun food(nameId: Int): String {
-    return ""
-}
-
-// Food 是 banner 的 receiver
-class Food {
-    // 返回值类型   Food.(String,Long) -> Any   ==》  (Food,String,Long) -> Any
-    fun banana(weight: String, length: Long): Any {
-        return ""
-    }
-
-}
-
-// 函数的引用：
-// 类似 C 语言中的函数指针，可用于函数传递
-// 上面三个的函数 引用 分别是
-// ::food
-// ::food
-// Food::banana
-
-
-
 
 
 fun testFun(f: (Food, String, Long) -> Any) {
     // 两种调用方式
     f(Food(), "", 3L)
 //    f.invoke(Food(), "", 3L)
+
+    println()
 }
 
 
