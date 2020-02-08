@@ -1,4 +1,4 @@
-package com.android.kotlinpractice
+package com.kotlin.practice
 
 import org.junit.Test
 
