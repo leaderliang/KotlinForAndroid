@@ -16,31 +16,40 @@ public class JavaStreams {
 //        }
         //endregion
 
-        var list = new ArrayList<Integer>();
-        list.addAll(Arrays.asList(1, 2, 3, 4));
+
+
+//        var list = new ArrayList<Integer>();
+//        list.addAll(Arrays.asList(1, 2, 3, 4));
+
+
+
 
         //region stream
-//        list.stream()
-//                .filter(e -> {
-//                    System.out.println("filter: " + e);
-//                    return e % 2 == 0;
-//                })
-//                .map(e -> {
-//                    System.out.println("map: " + e);
-//                    return e * 2 + 1;
-//                })
-//                .forEach(e -> {
-//                    System.out.println("forEach: " + e);
-//                });
+        /*list.stream()
+                .filter(e -> {
+                    System.out.println("filter: " + e);
+                    return e % 2 == 0;
+                })
+                .map(e -> {
+                    System.out.println("map: " + e);
+                    return e * 2 + 1;
+                })
+                .forEach(e -> {
+                    System.out.println("forEach: " + e);
+                });*/
         //endregion
 
-        list.stream().flatMap(e -> {
+
+
+        /*list.stream().flatMap(e -> {
             ArrayList<Integer> integers = new ArrayList<>(e);
             for (int i = 0; i < e; i++) {
                 integers.add(i);
             }
             return integers.stream();
-        });
+        });*/
+
+
 
         //[1,2,3] -> [0,0,1,0,1,2]
 

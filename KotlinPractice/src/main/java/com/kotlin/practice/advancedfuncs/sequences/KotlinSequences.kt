@@ -1,7 +1,12 @@
 package com.kotlin.practice.advancedfuncs.sequences
 
+
 fun main() {
     val list = listOf(1, 2, 3, 4)
+
+    val lists = list.filter { it % 2 == 0 }
+    println("--> ${lists.joinToString()}")
+
 
     //region sequence
     list.asSequence()
@@ -17,12 +22,15 @@ fun main() {
     //rxjava
     //endregion
 
+
     list.asSequence()
         .flatMap {
             (0 until it).asSequence()
         }
-        .joinToString().let(::println)
+        .joinToString()
+        .let(::prints)
     //rxjava
+
 
 
 
@@ -91,4 +99,11 @@ fun main() {
 //            (0 until it).asSequence()
 //        }.forEach(::println)
     //endregion
+
+
 }
+
+fun prints(message: Any?) {
+    print(message)
+}
+
