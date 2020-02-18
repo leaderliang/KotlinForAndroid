@@ -2,6 +2,10 @@ package com.kotlin.practice.advancedfuncs.common_func
 
 import java.io.File
 
+/**
+ * let、also、use 比较好用；
+ * run、apply 很容易嵌套很多 receiver；
+ */
 
 class Person(var name: String, var age: Int)
 

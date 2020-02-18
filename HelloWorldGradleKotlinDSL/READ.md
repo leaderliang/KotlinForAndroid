@@ -1,17 +1,18 @@
-apply plugin: 'com.android.library'
-
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
 
 
     defaultConfig {
-        minSdkVersion 16
+        applicationId "com.devliang.kotlin"
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -24,15 +25,10 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
-
-    api 'androidx.appcompat:appcompat:1.0.2'
-    api "com.google.code.gson:gson:2.8.5"
-    api 'com.squareup.okhttp3:okhttp:3.9.0'
-    api 'androidx.recyclerview:recyclerview:1.0.0'
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-
-
+    implementation fileTree(org.gradle.internal.impldep.bsh.commands.dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.core:core-ktx:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

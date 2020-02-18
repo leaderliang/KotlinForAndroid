@@ -1,2 +1,0 @@
-include ':app', ':kotlinbase', ':KotlinPractice'
-rootProject.name='KotlinForAndroid'

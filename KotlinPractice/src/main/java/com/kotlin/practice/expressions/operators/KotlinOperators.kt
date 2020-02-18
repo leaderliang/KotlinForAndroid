@@ -4,6 +4,7 @@ package com.kotlin.practice.expressions.operators
  * 运算符 和
  *
  * 中缀表达式（有一个 receiver 和 只有一个参数 就是中缀表达式）
+ * 使用 infix 关键字作为标识
  */
 fun main() {
     //https://kotlinlang.org/docs/reference/operator-overloading.html
@@ -22,7 +23,7 @@ fun main() {
 
     val map = mutableMapOf(
         "Hello" to 2,
-        "World" to 3
+        "World" to 3 // "World".to(3)
     )
     val value = map["Hello"]
 
@@ -86,12 +87,20 @@ val test = fun(): String {
  * 中缀表达式（有一个 receiver 和 只有一个参数 就是中缀表达式）
  * 加 infix 关键字 标识
  */
-infix fun <A, B> A.to(that: B): Pair<A, B> = Pair(this, that)// 函数体为一个表达式时候，可直接写作简化的形式
+infix fun <A, B> A.to(that: B): Pair<A, B> {
+    return Pair(this, that)
+}
+
+/*infix fun <A, B> A.to(that: B) {
+     Pair(this, that)
+}*/
+
+//infix fun <A, B> A.to(that: B): Pair<A, B> = Pair(this, that)// 函数体为一个表达式时候，可直接写作简化的形式
 
 
 /**
  * 中缀表达式（有一个 receiver 和 只有一个参数 就是中缀表达式）
- * 加 infix 关键字 标识
+ * 使用 infix 关键字 标识
  */
 infix fun String.rotate(count: Int): String {
     val index = count % length
@@ -111,6 +120,7 @@ infix fun Book.on(desk: Desk) {
 /*val lala = fun haha(){
     println("sfdasdfas")
 }*/
+
 // 可以直接简化成下面形式 lambda 表达式
 // anonymous function 匿名方法
 // return 可以省略
