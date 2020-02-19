@@ -16,6 +16,9 @@ import com.kotlin.practice.types.classes.kotlin.SimpleInterface
  * 尽可能减少函数对外部变量的访问，也为函数式编程提供基础。
  * 必要时创建局部变量指向外部变量，避免因他变化引起程序错误。
  *
+ * 类型强转
+ * java		(TextView) v
+ * kotlin	v as TextView   	一般都省略，比如判断条件里面
  *
  * @author dev.liang <a href="mailto:dev.liang@outlook.com">Contact me.</a>
  * @version 1.0
@@ -32,7 +35,7 @@ fun main() {
 
 
     // ? 可空类型
-    // !!.  notNull 比较危险，因可能会在别的地方赋值为空
+    // !!.  notNull （不可空类型） 比较危险，因可能会在别的地方赋值为空
     // ?. 安全访问符，就是不确定 会不会为空。
     var str: String? = "adsf"
 //    str = null

@@ -4,10 +4,10 @@ Kotlin for android
 
 
 
-from root build.gradle file content
-
-// Top-level build file where you can add configuration
-options common to all sub-projects/modules.
+from project root build.gradle file content
+```
+ // Top-level build file where
+you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     ext.kotlin_version = '1.3.50'
@@ -35,4 +35,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
+```

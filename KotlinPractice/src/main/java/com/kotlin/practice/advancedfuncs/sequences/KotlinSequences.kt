@@ -4,8 +4,26 @@ package com.kotlin.practice.advancedfuncs.sequences
 fun main() {
     val list = listOf(1, 2, 3, 4)
 
-    val lists = list.filter { it % 2 == 0 }
-    println("--> ${lists.joinToString()}")
+    // filter
+    val lists1 = list.filter {
+        it % 2 == 0
+    }
+    // asSequence() 转换为懒序列
+    val lists2 = list.asSequence()
+        .filter{
+            it % 2 == 0
+        }
+
+    println("lists1 --> ${lists1.joinToString()}")
+    println("lists2 --> ${lists2.joinToString()}") // 懒序列
+
+
+    // map
+    val map1 = list.map { it * 2 + 1 }
+    val map2 = list.asSequence().map { it * 2 + 1 }
+
+    println("map1 -->${map1.joinToString()}")// -->3, 5, 7, 9
+    println("map2 -->${map2.joinToString()}")// -->3, 5, 7, 9
 
 
     //region sequence
@@ -29,8 +47,27 @@ fun main() {
         }
         .joinToString()
         .let(::prints)
+    println()
     //rxjava
 
+
+    list.forEach {
+        if (it == 2) {
+            return@forEach // return@forEach 相当于 跳出这一次的内联函数调用;也就是当前这一次的循环，然后继续执行
+        }
+        println(it)// 输出 1、3、4
+    }
+    println("out----")
+
+    // sum 所有元素求和
+    // reduce 将元素依次按规则聚合，结果与元素类型一致
+    // fold 给定初始化值，将元素按规则聚合，结果与初始化值类型一致；另外还有 foldRight,是从右往左
+//    val reduce =list.reduce { acc, i -> acc + 1  }
+    val fold = list.fold(StringBuilder()) { acc, i ->
+        acc.append(i) // 返回值类型为 stringBuilder，作为下一个元素的 acc
+    }
+//    println(reduce)
+    print(fold)
 
 
 

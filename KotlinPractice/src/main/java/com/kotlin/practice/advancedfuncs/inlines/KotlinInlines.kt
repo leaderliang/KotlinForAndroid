@@ -1,7 +1,7 @@
 package com.kotlin.practice.advancedfuncs.inlines
 
 /**
- * TODO
+ * TODO 内联函数
  *
  * @author dev.liang <a href="mailto:dev.liang@outlook.com">Contact me.</a>
  * @version 1.0
@@ -35,12 +35,12 @@ fun main() {
         // return 不是退出这个 lambda 表达式，而是退出 这个函数所在的外部函数，也就是从 main 函数中返回；
         // 当 nonLocalReturn 参数中添加 crossinline 后，这个 return 就会报错，不被允许；
         // 可以使用 return@nonLocalReturn
+//        return@nonLocalReturn // 当 nonLocalReturn 参数中添加 crossinline 后，这个 return 就会报错，不被允许；
         return
     }
-
     // endregion
 
-    println("test")
+    println("test out nonLocalReturn")// 上面的 nonLocalReturn
 
 
 
@@ -50,11 +50,12 @@ fun main() {
 
 }
 
-inline fun nonLocalReturn(block: () -> Unit){
+inline fun nonLocalReturn(block: () -> Unit){// crossinline 表示 禁止 non-local return
     block()
 }
 
 
+// crossinline
 // 函数参数前 添加 crossinline，表示 禁止 non-local return
 // 需再参数 block 前添加 crossinline，否则 block() 会报错
 // 有可能存在不合法的 non-local return
