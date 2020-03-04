@@ -18,6 +18,17 @@ public class JavaMain {
         if(simpleInterface instanceof Person) {
             System.out.println(((Person) simpleInterface).getSex());
         }
+
+        /**
+         * 本地类
+         */
+        class LocalClass implements Cloneable,Runnable{
+            @Override
+            public void run() {
+
+            }
+        }
     }
 
 }
+

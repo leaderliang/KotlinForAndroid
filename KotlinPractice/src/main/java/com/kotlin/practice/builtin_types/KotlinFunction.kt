@@ -68,6 +68,7 @@ fun main(args: Array<String>): Unit {
     val f2: (Food, String, Long) -> Any = Food::banana
     // receiver 的一种写法；Food 是 receiver
     val f3: Food.(String, Long) -> Any = Food::banana
+    // Function3<Food, String, Long, Any> 这个是返回值类型
     val f4: Function3<Food, String, Long, Any> = Food::banana
     // (Food, String, Long) -> Any = Food.(String, Long) -> Any = Function3<Food, String, Long, Any>
 

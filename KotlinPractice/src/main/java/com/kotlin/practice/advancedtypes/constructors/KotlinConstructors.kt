@@ -6,6 +6,8 @@ package com.kotlin.practice.advancedtypes.constructors
 fun main() {
     val str = String()
     val str1 = String(charArrayOf('1', '2'))
+    println(str1)
+
 }
 
 fun string(ints: IntArray): String {

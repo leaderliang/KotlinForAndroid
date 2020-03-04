@@ -5,6 +5,10 @@ import kotlin.reflect.KProperty
 /**
  * TODO
  * 数组相关
+ *
+ * val
+ * var
+ *
  * @author dev.liang <a href="mailto:dev.liang@outlook.com">Contact me.</a>
  * @version 1.0
  * @since 2019/11/07 11:42

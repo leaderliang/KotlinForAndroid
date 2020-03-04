@@ -8,6 +8,7 @@
     </JetCodeStyleSettings>
     <MarkdownNavigatorCodeStyleSettings>
       <option name="WRAP_ON_TYPING" value="1" />
+      <option name="SMART_EDIT_TABLES" value="true" />
     </MarkdownNavigatorCodeStyleSettings>
     <codeStyleSettings language="XML">
       <indentOptions>

@@ -30,7 +30,7 @@ fun main() {
      * buffered() BufferedReader
      *
      */
-    File("build.gradle").inputStream().reader().buffered()
+    File("build.gradle.kts").inputStream().reader().buffered()
         .use {
             // 单条打印
             println(it.readLine())

@@ -4,7 +4,8 @@ import java.lang.IndexOutOfBoundsException
 
 
 /**
- * operator
+ * operator 重载操作符/运算符
+ *
  * 重载操作符的函数需要用 operator 关键字标记；
  */
 
