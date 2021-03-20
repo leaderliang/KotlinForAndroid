@@ -1,8 +1,10 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-android {
-    compileSdkVersion 29
+
+
+```groovy
+apply plugin: 'com.android.application' apply plugin:
+'kotlin-android' apply plugin: 'kotlin-android-extensions' android {
+compileSdkVersion 29
+
 
 
     defaultConfig {
@@ -33,3 +35,4 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
+```

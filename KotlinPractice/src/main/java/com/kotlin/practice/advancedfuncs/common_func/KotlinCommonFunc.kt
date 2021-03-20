@@ -3,8 +3,24 @@ package com.kotlin.practice.advancedfuncs.common_func
 import java.io.File
 
 /**
+ *
+ * let
+ * run
+ * 二者返回值是高阶函数 lambda 表达式自己的返回值
+ *
+ * also
+ * apply
+ * 二者返回值是是自己的 receiver
+ *
+ *
  * let、also、use 比较好用；
+ *
  * run、apply 很容易嵌套很多 receiver；
+ *
+ * 
+ *
+ *
+ * with
  */
 
 class Person(var name: String, var age: Int)
@@ -15,6 +31,7 @@ fun main() {
 
     person.let(::println)
     person.run(::println)
+
 
     val person2 = person.also {
         it.name = "hhh"

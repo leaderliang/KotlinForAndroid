@@ -12,6 +12,7 @@ enum class State: Runnable{
     }
 }
 
+
 //region fold
 fun State.successor(): State? {
     return State.values().let {
@@ -31,6 +32,8 @@ enum class Color {
     White, Red, Green, Blue, Yellow, Black
 }
 //endregion
+
+
 
 fun main() {
     State.Idle.run()

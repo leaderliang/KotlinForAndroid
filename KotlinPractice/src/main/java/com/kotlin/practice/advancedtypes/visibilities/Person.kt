@@ -20,7 +20,7 @@ package com.kotlin.practice.advancedtypes.visibilities
  * @version 1.0
  * @since 2020/02/19 12:44
  */
-class Person @JvmOverloads constructor(var name: String = "dev.liang", age: Int) {// 设置默认参数; private 私有构造
+class Person @JvmOverloads  /*private internal*/ constructor(var name: String = "dev.liang", age: Int) {// 设置默认参数; private 私有构造
 
     var age: Int
     var firstName: String? = null

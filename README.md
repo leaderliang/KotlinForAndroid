@@ -2,10 +2,14 @@
 Kotlin for android
 
 
+> android studio 预览版 抢先体验 Android Studio 中的最新功能和改进，下载地址：
+> https://developer.android.com/studio/preview/?utm_source=android-studio
+
 
 
 from project root build.gradle file content
-```
+
+```groovy
  // Top-level build file where
 you can add configuration options common to all sub-projects/modules.
 
@@ -36,3 +40,4 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 ```
+

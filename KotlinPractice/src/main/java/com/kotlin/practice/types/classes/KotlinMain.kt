@@ -37,12 +37,18 @@ fun main() {
     // ? 可空类型
     // !!.  notNull （不可空类型） 比较危险，因可能会在别的地方赋值为空
     // ?. 安全访问符，就是不确定 会不会为空。
+    // ?:  elvis 运算符
     var str: String? = "adsf"
 //    str = null
 //    val length = str!!.length
 //    val length = str?.length
     val length = str?.length ?: 0 // elvis 运算符
     println(length)
+
+
+    /*var strs: String? = null
+    val length = strs?.length ?: 5
+    println(length)*/
 
 
     // 空类型的继承关系
