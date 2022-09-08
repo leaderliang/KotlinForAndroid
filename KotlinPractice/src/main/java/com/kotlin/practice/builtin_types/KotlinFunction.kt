@@ -102,7 +102,7 @@ fun main(args: Array<String>): Unit {
 
 
     // 默认参数
-//    defaultParameter(2,"我是第二个参数")
+    defaultParameter(2,"我是第二个参数")
     defaultParameter(y = "lalalala") // 指定具名参数
 
 }
@@ -131,7 +131,7 @@ fun multiParameters(vararg ints: Int) {
  * Triple<Int,String,Long> 三个类型对应返回值的三个类型
  */
 fun multiReturnValues(): Triple<Int, String, Long> {
-    return Triple(1, "三个返回值第二个参数", 3L)
+    return Triple(1, "三个返回值第二个参数", 3L)  // 伪多返回值
 }
 
 /**
@@ -142,6 +142,8 @@ fun multiReturnValues2(): Pair<Int, String> {
 }
 
 /**
+ * 方法中多个参数，有些参数有默认值写法
+ *
  * 默认参数
  *
  * 当方法为 fun defaultParameter(x: Int, y: String, z: Long = 3)

@@ -8,6 +8,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mTextView by lazy {
         findViewById<TextView>(R.id.text_view)
+        findViewById<TextView>(R.id.text_view)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,17 +20,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
-
 }
 
 var a = fun() = false
-var b = fun():Boolean { return false}
+var b = fun(): Boolean { return false }
 fun isEmptyc() = false
-fun isEmptycc(){ false}
+fun isEmptycc() {
+    false
+}
 
 fun main() {
     println(a)

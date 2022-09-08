@@ -4,10 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Switch
-import android.widget.Toast
+import android.widget.*
 import com.android.kotlin.entity.User
 import com.android.kotlin.view.CodeView
 import com.android.kotlinbase.utils.CacheUtils
@@ -36,7 +33,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        user.userName = "dev.liang"
 //        user.passWord = "123456"
 //        user.code = "1207"
-
 
         setContentView(R.layout.activity_main)
         mEtUsername = findViewById(R.id.et_username)

@@ -60,13 +60,6 @@ interface Guy {
 
 
 
-
-
-
-
-
-
-
 fun String.padding(count: Int, char: Char = ' '): String {
     val padding = (1 .. count).joinToString(""){ char.toString() }
     return "${padding}${this}${padding}"
@@ -77,7 +70,7 @@ fun String.isEmail(): Boolean {
 }
 
 fun String.times(count: Int): String {
-    return (1 .. count).joinToString("") { this }
+    return (1 .. count).joinToString("--") { this }
 }
 
 fun main() {
@@ -86,6 +79,7 @@ fun main() {
 
 
     println("Hello".padding(1))
+
     println("*".times(10))
 
     val stringTimes = String::times

@@ -38,7 +38,7 @@ fun main() {
     // !!.  notNull （不可空类型） 比较危险，因可能会在别的地方赋值为空
     // ?. 安全访问符，就是不确定 会不会为空。
     // ?:  elvis 运算符
-    var str: String? = "adsf"
+    var str: String? = null
 //    str = null
 //    val length = str!!.length
 //    val length = str?.length
