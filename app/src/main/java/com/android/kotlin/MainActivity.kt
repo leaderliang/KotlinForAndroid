@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
-    
+
     private val usernameKey = "username"
     private val passwordKey = "password"
 
@@ -54,13 +54,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      */
     companion object {
         //编译期常量
-         const val a = 3
+        const val a = 3
 
-        fun doPlus(a: Int): Int{
+        fun doPlus(a: Int): Int {
             return a + 3
         }
     }
 
+// region + 折叠
 
     override fun onClick(v: View?) {
         //To change body of created functions use File | Settings | File Templates.
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
     }
-
+// endregion
 
     private fun login() {
         val username = mEtUsername.text.toString()
