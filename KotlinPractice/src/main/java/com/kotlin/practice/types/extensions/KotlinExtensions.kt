@@ -55,11 +55,9 @@ interface Guy {
 }
 
 
-
-
-
-
-
+/**
+ * kotlin 拓展方法，拓展 string 的 方法
+ */
 fun String.padding(count: Int, char: Char = ' '): String {
     val padding = (1 .. count).joinToString(""){ char.toString() }
     return "${padding}${this}${padding}"
@@ -70,8 +68,10 @@ fun String.isEmail(): Boolean {
 }
 
 fun String.times(count: Int): String {
-    return (1 .. count).joinToString("--") { this }
+    return (1 .. count).joinToString(separator= "--") { this }
 }
+
+
 
 fun main() {
 

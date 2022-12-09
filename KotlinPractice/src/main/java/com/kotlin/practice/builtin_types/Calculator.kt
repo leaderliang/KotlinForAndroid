@@ -8,7 +8,13 @@ package com.kotlin.practice.builtin_types
  * @version 1.0
  * @since 2020/01/27 16:28
  */
-fun main(vararg arg: String) {
+fun main() {
+    calculator("3", "*", "5")
+//    calculator("3", "6", "5")
+}
+
+// vararg 变长参数
+fun calculator(vararg arg: String) {
 
     if (arg.size < 3) {
         return showLog()
@@ -22,7 +28,7 @@ fun main(vararg arg: String) {
     )
 
     val sign = arg[1]
-    val signFunction= algorithm[sign] ?: return showLog()
+    val signFunction = algorithm[sign] ?: return showLog()
 
 
 //    println("${signFunction(arg[0].toInt(), arg[2].toInt())}")
@@ -67,6 +73,8 @@ fun times(arg0: Int, arg1: Int): Int {
 fun division(arg0: Int, arg1: Int): Int {
     return arg0 / arg1
 }
+
+
 
 
 
