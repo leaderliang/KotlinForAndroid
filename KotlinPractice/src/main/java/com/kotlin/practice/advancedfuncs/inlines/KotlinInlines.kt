@@ -22,9 +22,11 @@ fun main() {
         println("Hello $it")
     }
 
-    // 和下面这个 for 循环类似
+    // 和下面这个 for 循环使用 continue 类似
     for (element in ints) {
-        if(element == 3) continue
+        if(element == 3)
+//            break
+            continue
         println("Hello $element")
     }
     //endregion

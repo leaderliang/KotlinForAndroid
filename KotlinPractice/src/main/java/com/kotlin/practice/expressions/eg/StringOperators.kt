@@ -8,19 +8,31 @@ package com.kotlin.practice.expressions.eg
  *
  */
 
-operator fun String.minus(right: Any?)
-        = this.replaceFirst(right.toString(), "")
+operator fun String.minus(right: Any?) = this.replaceFirst(right.toString(), "")
 
 operator fun String.times(right: Int): String {
-    return (1..right).joinToString(""){ this }
+    return (1..right).joinToString("") { this }
 }
 
-operator fun String.div(right: Any?): Int {
+/*operator fun String.div(right: Any?): Int {
     val right = right.toString()
     return this.windowed(right.length, 1, transform = {
         it == right
     }) // [false, false, false, false ... false, true, ..., true]
         .count { it }
+}
+*/
+
+// or
+
+operator fun String.div(right: Any?): Int {
+    val right = right.toString()
+    return this.windowed(right.length, 1, transform = {
+        it == right
+    }).count(predicate = {
+        println("count  $it")
+        it
+    })
 }
 
 fun main() {
@@ -33,6 +45,8 @@ fun main() {
     println("*" * 20)
 
     println(value / 3)
+
     println(value / "l")
+
     println(value / "ld")
 }
