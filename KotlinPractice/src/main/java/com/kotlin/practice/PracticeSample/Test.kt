@@ -70,8 +70,8 @@ fun main() {
     println(intArray.joinToString())
     println(intArray.contentToString())
 
-    intArray.forEach(::print)
-    intArray.forEach(::println)// println 的类型 (Int) -> Unit
+    intArray.forEach(::print)// print 的类型 (Int) -> Unit ...
+    intArray.forEach(::println)// println 的类型 (Int) -> Unit ...
 
     // 只有一个 lambda 表达式作为参数的函数，可省略掉小括号
     intArray.forEach {
@@ -88,6 +88,8 @@ fun main() {
     costNoInline{
         println("test costNoInline $it")
     }
+    cost_(::println)
+
 }
 
 
@@ -122,6 +124,12 @@ infix fun String.rotate(count: Int): String {
 inline fun cost(block: (Int) -> Unit) {
     val start = System.currentTimeMillis()
     block(23333)
+    println("${System.currentTimeMillis() - start }ms")
+}
+
+inline fun cost_(block: (Int) -> Unit) {
+    val start = System.currentTimeMillis()
+    block(123)
     println("${System.currentTimeMillis() - start }ms")
 }
 

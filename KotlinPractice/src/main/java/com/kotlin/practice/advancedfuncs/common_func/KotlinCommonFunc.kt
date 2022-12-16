@@ -17,7 +17,7 @@ import java.io.File
  *
  * run、apply 很容易嵌套很多 receiver；
  *
- * 
+ *
  *
  *
  * with
@@ -27,12 +27,28 @@ class Person(var name: String, var age: Int)
 
 
 fun main() {
-    val person = Person("benny", 20)
+    val person = Person("kevin", 30)
 
-    person.let(::println)
-    person.run(::println)
+//    person.let(::println)
+//    person.run(::println)
 
+    val a: () -> Unit = ::println
 
+    // 返回表达式结果
+    val use1 = person.let {
+        it.name = "liang"
+        it.age = 29
+        "asdfasd"// 可以增加返回值
+    }
+    use1
+
+    val use2: Int = person.run {
+        name = "tom"
+        age = 100
+        12345// 可以增加返回值
+    }
+
+    // 返回 Receiver
     val person2 = person.also {
         it.name = "hhh"
     }
@@ -42,6 +58,9 @@ fun main() {
     }
 
     /**
+     * use 自动关闭资源
+     *
+     *
      * inputStream() 打开一个文件，读取 二进制
      * reader() 读取 char
      * buffered() BufferedReader
@@ -57,3 +76,8 @@ fun main() {
 
 
 }
+
+/*
+fun println(message: Any?, other: String) {
+    System.out.println(message)
+}*/

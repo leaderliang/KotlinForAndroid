@@ -52,9 +52,17 @@ fun main() {
 
 }
 
-inline fun nonLocalReturn(block: () -> Unit){// crossinline 表示 禁止 non-local return
+// non - local return
+inline fun nonLocalReturn(block: () -> Unit){
     block()
 }
+
+
+/*inline fun nonLocalReturn(block: () -> Unit){
+    block()
+}*/
+
+// crossinline 表示 禁止 non-local return
 
 
 // crossinline
