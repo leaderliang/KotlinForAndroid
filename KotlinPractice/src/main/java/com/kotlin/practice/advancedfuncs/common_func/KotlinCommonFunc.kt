@@ -23,14 +23,19 @@ import java.io.File
  * with
  */
 
-class Person(var name: String, var age: Int)
+class Person(var name: String, var age: Int){
+    override fun toString(): String {
+        return "Person(name='$name', age=$age)"
+    }
+}
 
 
 fun main() {
     val person = Person("kevin", 30)
 
-//    person.let(::println)
-//    person.run(::println)
+    person.let(::println)
+
+    person.run(::println)
 
     val a: () -> Unit = ::println
 
