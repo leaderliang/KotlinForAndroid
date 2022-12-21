@@ -23,6 +23,9 @@ class ApiImpl : Api {
 
 // ": Api by api"  对象 api 代替类 ApiWrapper 实现接口 Api
 class ApiWrapper(val api: Api) : Api by api {
+
+
+
     override fun c() {
         println("c is called.")
         api.c()

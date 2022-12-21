@@ -1,5 +1,6 @@
 package com.kotlin.practice.advancedtypes.enums
 
+// 实现接口
 enum class State: Runnable{
     Idle, Busy{
         override fun run() {
@@ -39,11 +40,17 @@ fun main() {
     State.Idle.run()
     State.Busy.run()
 
+
     println(State.Idle.successor())
     println(State.Busy.successor())
 
-    State.Idle.name // Idle
+    State.Idle.name // 返回名字 Idle
     State.Idle.ordinal // 0
+    State.Busy.ordinal // 返回序号
+    println("State.Idle.name  ${State.Idle.name}")
+    println("State.Idle.ordinal  ${State.Idle.ordinal}")
+    println("State.Busy.ordinal  ${State.Busy.ordinal}")
+
 
     val state = State.Idle
     val value = when (state) {
@@ -51,11 +58,12 @@ fun main() {
         State.Busy -> { 1 }
     }
 
+    // 比较大小
     if(state <= State.Idle){
 
     }
 
-
+    // 定义区间
     val colorRange = Color.White..Color.Green
     val color = Color.Blue
     println(color in colorRange)

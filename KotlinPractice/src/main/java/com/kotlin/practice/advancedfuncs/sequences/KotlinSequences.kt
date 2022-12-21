@@ -3,7 +3,7 @@ package com.kotlin.practice.advancedfuncs.sequences
 
 fun main() {
     val list = listOf(1, 2, 3, 4)
-    val otherList = listOf<String>("liang","zhang","zhao","li")
+    val otherList = listOf<String>("liang", "zhang", "zhao", "li")
 
     // filter
     println("---------filter------------")
@@ -12,7 +12,7 @@ fun main() {
     }
     // asSequence() 转换为懒序列
     val lists2 = list.asSequence()
-        .filter{
+        .filter {
             it % 2 == 0
         }
 
@@ -51,6 +51,12 @@ fun main() {
         }
         .joinToString()
         .let(::prints)
+
+    list.flatMap {
+        println(0 until it)// 0..0  0..1  0..2  0..3
+        0 until it
+    }.joinToString()
+        .let(::prints)
     //返回 0, 0, 1, 0, 1, 2, 0, 1, 2, 3
     //1234 -> 0, 0, 1, 0, 1, 2, 0, 1, 2, 3
 
@@ -70,7 +76,7 @@ fun main() {
     val zipList: List<Pair<Int, String>> = list.zip(otherList)
     println("zipList   $zipList")
 
-    val zipList_:List<Unit>  = list.zip(otherList){ a,b ->
+    val zipList_: List<Unit> = list.zip(otherList) { a, b ->
         println("The $a is $b")
     }
 
@@ -84,7 +90,7 @@ fun main() {
 
 
 
-    println("---------集合的聚合操作举例------------")
+    println("---------集合的聚合操作举例 sum、reduce、fold、foldRight ------------")
     // sum 所有元素求和
     // reduce 将元素依次按规则聚合，结果与元素类型一致
     // fold 给定初始化值，将元素按规则聚合，结果与初始化值类型一致；另外还有 foldRight,是从右往左
@@ -98,7 +104,7 @@ fun main() {
         acc.append(i) // 返回值类型为 stringBuilder，作为下一个元素的 acc
     }
 
-    val foldRight = list.foldRight(StringBuilder()) { i , acc ->
+    val foldRight = list.foldRight(StringBuilder()) { i, acc ->
 //        println("acc = $acc")// 每次拼接的值
 //        println("i = $i")//遍历过程中每一个值
         acc.append(i)
@@ -110,7 +116,6 @@ fun main() {
     println("foldRight $foldRight")
 
     println()
-
 
 
 //    .asSequence() 懒加载，加上 .asSequence()，会在 filter、map 过程中不打印任何内容

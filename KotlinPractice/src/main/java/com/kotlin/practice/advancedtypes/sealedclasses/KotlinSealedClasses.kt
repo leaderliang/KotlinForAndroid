@@ -37,6 +37,7 @@ object Idle : PlayerState()
 
 class Playing(val song: Song) : PlayerState() {
     fun start() {}
+    fun start(params:String) {}
     fun stop() {}
 }
 
@@ -51,9 +52,10 @@ class Player {
     fun play(song: Song) {
         this.state = when (val state = this.state) {
             Idle -> {
-                // Playing(song).also(Playing::start) 和下面等价
+                 Playing(song).also(Playing::start) // 和下面等价
                 Playing(song).also{
                     it.start()
+//                    it.start("asdfasd")
                 }
             }
             is Playing -> {
