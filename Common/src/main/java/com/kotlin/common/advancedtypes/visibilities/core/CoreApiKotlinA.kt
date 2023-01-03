@@ -7,7 +7,7 @@ internal class CoreApiKotlinA {
      *
      * 不添加  @JvmName("%abcd") 时候，java 代码调用时候是  coreApiKotlinA.a$Common();
      */
-    @JvmName("%abcd")
+//    @JvmName("%abcd")
     internal fun a(){
         println("Hello A")
     }

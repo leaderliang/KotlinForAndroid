@@ -10,8 +10,14 @@ import com.android.kotlin.view.CodeView
 import com.android.kotlinbase.utils.CacheUtils
 import com.android.kotlinbase.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.random.Random
 
+/**
+ * import kotlinx.android.synthetic.main.activity_main.*
+ * 对应下面这个插件
+ * apply plugin: 'kotlin-android-extensions'
+ * 集成后，才能直接使用布局 view  id 直接调用相关属性使用
+ *
+ */
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val usernameKey = "username"
@@ -35,10 +41,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        user.code = "1207"
 
         setContentView(R.layout.activity_main)
-        mEtUsername = findViewById(R.id.et_username)
-        mEtPassword = findViewById(R.id.et_password)
-        mEtCode = findViewById(R.id.et_code)
+//        mEtUsername = findViewById(R.id.et_username)
+//        mEtPassword = findViewById(R.id.et_password)
+//        mEtCode = findViewById(R.id.et_code)
 
+         // synthetic
         et_username.setText(CacheUtils.get(usernameKey))
         et_password.setText(CacheUtils.get(passwordKey))
 
