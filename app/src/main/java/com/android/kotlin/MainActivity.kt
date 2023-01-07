@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.android.kotlin.databinding.ActivityMainBinding
 import com.android.kotlin.entity.User
 import com.android.kotlin.view.CodeView
 import com.android.kotlinbase.utils.CacheUtils
 import com.android.kotlinbase.utils.Utils
-import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * import kotlinx.android.synthetic.main.activity_main.*
@@ -20,20 +20,22 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
+    private lateinit var mBinding: ActivityMainBinding
     private val usernameKey = "username"
     private val passwordKey = "password"
 
     // lateinit 晚些初始化的对象
-    private lateinit var mEtUsername: EditText
-    private lateinit var mEtPassword: EditText
-    private lateinit var mEtCode: EditText
+//    private lateinit var mEtUsername: EditText
+//    private lateinit var mEtPassword: EditText
+//    private lateinit var mEtCode: EditText
 
 //    val setlll = setOf<>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mBinding =  ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 
 //        var user = User()
 //        user.userName = "dev.liang"
@@ -46,8 +48,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        mEtCode = findViewById(R.id.et_code)
 
          // synthetic
-        et_username.setText(CacheUtils.get(usernameKey))
-        et_password.setText(CacheUtils.get(passwordKey))
+        mBinding.etUsername.setText(CacheUtils.get(usernameKey))
+        mBinding.etPassword.setText(CacheUtils.get(passwordKey))
 
         val btnLogin: Button = findViewById(R.id.btn_login)
         val imgCode: CodeView = findViewById(R.id.code_view)
@@ -96,9 +98,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 // endregion
 
     private fun login() {
-        val username = mEtUsername.text.toString()
-        val password = mEtPassword.text.toString()
-        val code = mEtCode.text.toString()
+        val username = mBinding.tvUsername.text.toString()
+        val password = mBinding.etPassword.text.toString()
+        val code = mBinding.etCode.text.toString()
 
         val user = User(username, password, code)
         if (verify(user)) {

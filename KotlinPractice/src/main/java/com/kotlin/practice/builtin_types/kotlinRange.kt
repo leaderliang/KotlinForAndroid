@@ -58,7 +58,7 @@ fun main() {
     }
 
     // 对于浮点型的数值区间，in 只能用来判断是否在区间内   !in
-    if(3 in doubleRange){
+    if(3.0 in doubleRange){
         println("3 in range 'intRange'")
     }
 
