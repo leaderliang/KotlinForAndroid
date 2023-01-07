@@ -21,7 +21,7 @@ import com.android.kotlinbase.BaseView;
 import java.util.List;
 
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class LessonActivity extends AppCompatActivity implements BaseView<LessonPresenter>, Toolbar.OnMenuItemClickListener {
     private LessonPresenter lessonPresenter = new LessonPresenter(this);
 
