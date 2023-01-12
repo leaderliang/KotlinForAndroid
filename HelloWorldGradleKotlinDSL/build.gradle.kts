@@ -1,8 +1,13 @@
+// gradle--groovy-dsl和kotlin-dsl对比  --->  https://blog.csdn.net/huweijian5/article/details/123883485
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
+//    kotlin("android.extensions")
+
+//    "kotlin-parcelize" // 序列化
 }
+// kotlin DSL
+apply(plugin = "kotlin-parcelize")
 
 
 android {
@@ -10,8 +15,8 @@ android {
 
     defaultConfig {
         applicationId = "com.devliang.kotlin"
-        minSdkVersion (17)
-        targetSdkVersion (29)
+        minSdkVersion(17)
+        targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
 
