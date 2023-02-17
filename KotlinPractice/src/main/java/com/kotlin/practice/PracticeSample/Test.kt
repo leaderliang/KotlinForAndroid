@@ -16,15 +16,33 @@ class Test(size: Int) {
 
 var tag: String? = null
 
+// const val 声明的时候就要初始化
 const val b: Int = 0
 
 const val bb = "asdf"
 
 const val bbb = 2.0
 
-fun main() {
+val adasdf:String
+    get() {
+        return "asdfasdsadf"
+    }
 
+
+fun main() {
 //    b = 5 // 不能重新赋值
+    val a : Int = 0
+    // bbbb 在使用之前进行了初始化，属于运行时常量
+    val bbbb: Int
+
+    if(a == 5){
+        bbbb = 4
+    }else {
+        bbbb = 6
+    }
+
+
+//    const val lalala = "asdfasd" // 错误，不能在局部用 const 声明常量
 
     if (tag != null) {
         // 外部 的 tag 在这里获取 length 会报错，虽然判断不为空，但其他线程可能对它做了修改
@@ -89,6 +107,18 @@ fun main() {
         println("test costNoInline $it")
     }
     cost_(::println)
+
+    // 仅仅只可在 声明 @Test 后可使用 （import org.junit.Test）
+    // 这个提示是:Android项目中不允许使用标识符。不影响运行。
+    `string function name`("liang y y")
+}
+
+
+/**
+ * kotlin 反引号的使用 , 首先需要明确反引号是哪个，反引号：键盘左上角与波浪线在一起的符号
+ */
+fun `string function name`(name: String){
+    println(name)
 
 }
 

@@ -3,7 +3,11 @@ package com.kotlin.practice.coroutine
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.kotlin.practice.R
+import com.kotlin.practice.coroutine.viewmodel.CoroutinePracticeViewModel
 import com.kotlin.practice.databinding.ActivityCoroutinePracticeBinding
 import kotlinx.coroutines.*
 import kotlin.coroutines.*
@@ -32,11 +36,22 @@ class CoroutinePracticeActivity : AppCompatActivity() , CoroutineScope by MainSc
     // MainScope() 源代码写法属于工厂模式
     private val mainscope = MainScope()
 
+
+   private val viewModel by viewModels<CoroutinePracticeViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        addBackPressedCallback()
+
         mBinding = ActivityCoroutinePracticeBinding.inflate(layoutInflater)
 //        setContentView(R.layout.activity_coroutine_practice)
         setContentView(mBinding.root)
+
+        //  实例化 viewModel 的方式
+//        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(CoroutinePracticeViewModel::class.java)
+            val viewModel by viewModels<CoroutinePracticeViewModel>()
+
 
         // 协程体 使用的是（import kotlin.coroutines.*）
         val continuation = suspend {
@@ -51,6 +66,8 @@ class CoroutinePracticeActivity : AppCompatActivity() , CoroutineScope by MainSc
         })
         // 执行协程体
         continuation.resume(Unit)
+
+
 
         // 代码实例
         mBinding.btTest.also {
@@ -93,15 +110,29 @@ class CoroutinePracticeActivity : AppCompatActivity() , CoroutineScope by MainSc
             }*/
         }
 
-
+        // MainScope 的另一种使用方式，类后面要 实现接口代理  CoroutineScope  eg:{ , CoroutineScope by MainScope()}
         launch {
-
+            // val user =  retrofitServiceApi.getUserInfo("params")
+            //mBinding.tvTest.text = user.username
         }
 
 
 
 
 
+    }
+
+    /**
+     * object 定义匿名内部类
+     * 注册返回 回调
+     */
+    private fun addBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(false){
+            override fun handleOnBackPressed() {
+                // TODO("Not yet implemented")
+            }
+
+        })
     }
 
     /**
@@ -112,6 +143,8 @@ class CoroutinePracticeActivity : AppCompatActivity() , CoroutineScope by MainSc
         super.onDestroy()
 
         mainscope.cancel()
+
+        cancel()
 
     }
 
