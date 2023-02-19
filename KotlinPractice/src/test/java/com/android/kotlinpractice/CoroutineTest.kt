@@ -312,7 +312,7 @@ class CoroutineTest {
 
 
     /**
-     * 释放资源
+     * 释放资源，  finally
      */
     @Test
     fun `test release resources`() = runBlocking {
@@ -396,6 +396,91 @@ class CoroutineTest {
             }
     }
 
+
+
+    /**
+     * nonCancelable
+     */
+    @Test
+    fun `test cancel with nonCancelable`() = runBlocking {
+        val job = launch {
+            try {
+                repeat(1000) {
+                    println("job: I'm sleeping ${it}....")
+                    delay(500)
+                }
+            } finally {
+                println("finally: release resource ")
+                delay(1000)
+                println("test nonCancelable")
+            }
+        }
+
+        delay(1300)
+        println("main: I'm tired of waiting!")
+        job.cancelAndJoin()
+        println("main: Now I can quit.")
+    }
+
+
+    /**
+     * 测试在 finally 中再次启动协程，不受 cancel 的影响
+     * 这个  withContext(NonCancellable){} 不仅仅只能用在 finally 中，常驻任务不想被取消也可以直接使用这个
+     * nonCancelable
+     */
+    @Test
+    fun `test cancel with nonCancelable   `() = runBlocking {
+        val job = launch {
+            try {
+                repeat(1000) {
+                    println("job: I'm sleeping ${it}....")
+                    delay(500)
+                }
+            } finally {
+                println("finally: release resource ")
+                withContext(NonCancellable){
+                    delay(1000)
+                    println("test nonCancelable")
+                }
+            }
+        }
+
+        delay(1300)
+        println("main: I'm tired of waiting!")
+        job.cancelAndJoin()
+        println("main: Now I can quit.")
+    }
+
+
+    /**
+     * 超时任务
+     */
+    @Test
+    fun `test timeout with coroutine`() = runBlocking {
+        withTimeout(1300){
+            repeat(1000) {
+                println("job: I'm sleeping ${it}....")
+                delay(500)
+            }
+        }
+    }
+
+
+    /**
+     * 超时任务
+     */
+    @Test
+    fun `test timeout with coroutine `() = runBlocking {
+         val result = withTimeoutOrNull(1300){
+            repeat(1000) {
+                println("job: I'm sleeping ${it}....")
+                delay(500)
+            }
+             "可以添加任意类型返回值，timeOut 的话，就会返回 null"
+        }  ?: "超时返回的值"
+
+        println("result is $result")
+    }
 
 }
 
