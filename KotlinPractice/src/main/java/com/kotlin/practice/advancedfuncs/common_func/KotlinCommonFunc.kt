@@ -71,7 +71,8 @@ fun main() {
      * buffered() BufferedReader
      *
      */
-    File("build.gradle.kts").inputStream().reader().buffered()
+    // build.gradle.kts   README.md
+    File("README.md").inputStream().reader().buffered()
         .use {
             // 单条打印
             println(it.readLine())
