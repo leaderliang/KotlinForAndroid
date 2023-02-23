@@ -454,6 +454,7 @@ class CoroutineTest {
 
     /**
      * 超时任务
+     * withTimeout
      */
     @Test
     fun `test timeout with coroutine`() = runBlocking {
@@ -468,6 +469,7 @@ class CoroutineTest {
 
     /**
      * 超时任务
+     * withTimeoutOrNull
      */
     @Test
     fun `test timeout with coroutine `() = runBlocking {
@@ -476,7 +478,7 @@ class CoroutineTest {
                 println("job: I'm sleeping ${it}....")
                 delay(500)
             }
-             "可以添加任意类型返回值，timeOut 的话，就会返回 null"
+             "可以添加任意类型返回值，timeout 的话，就会返回 null"
         }  ?: "超时返回的值"
 
         println("result is $result")
