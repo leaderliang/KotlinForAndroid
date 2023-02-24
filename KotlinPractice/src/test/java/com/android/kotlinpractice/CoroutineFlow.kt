@@ -1,7 +1,7 @@
 package com.android.kotlinpractice
 
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -115,7 +115,7 @@ class CoroutineFlow {
     }
 
     /**
-     * 调换完位置后，会阻塞，暂不知原因
+     * 调换完位置后，会阻塞，暂不知原因 ？？？？？
      * 打印结果：
         1
         2
@@ -142,6 +142,111 @@ class CoroutineFlow {
 
         println("finish")
     }
+
+
+    /**************************************************************************************************/
+
+    /**
+     * Flow 是一种类似于序列的冷留，flow 构建器中的代码直到流被收集的时候才开始运行。
+     *
+     * 也就是只有去调用 collect 的时候，才会开始构建流，才会在里面发射元素。
+     *
+     *
+     *
+     * 冷流：相当于冷启动，临阵磨枪；
+     * 热流：相当于热启动， 类似去创业，已经有一定的经验或资金积累了。
+     */
+    private fun simpleFlow2() = flow<Int> {
+        println("simpleFlow2 start")
+        for (i in 1..6) {
+            delay(1000)
+            // emit(i) 发射，产生一个元素
+            emit(i)
+        }
+    }
+
+    @Test
+    fun `test flow is  code`() = runBlocking {
+        val flow = simpleFlow2()
+        println("call first collect")
+        flow.collect{
+            println(it)
+        }
+
+        println("call second collect")
+
+        flow.collect{
+            println(it)
+        }
+    }
+
+    /*    执行结果：
+        call first collect
+        simpleFlow2 start
+        1
+        2
+        3
+        4
+        5
+        6
+        call second collect
+        simpleFlow2 start
+        1
+        2
+        3
+        4
+        5
+        6*/
+
+
+    /**************************************************************************************************/
+
+    /**
+     * 流的连续性
+     *
+     * asFlow()：流的快速构建器
+     */
+    @Test
+    fun `test flow continuation`() = runBlocking {
+        (0..10).asFlow()
+            .filter {
+                it % 2 == 0
+            }.map {
+                "result $it"
+            }.collect{
+                println("collect  $it")
+            }
+    }
+
+/*    打印：
+   collect result 0
+   collect result 2
+   collect result 4
+   collect result 6
+   collect result 8
+   collect result 10*/
+
+    /**************************************************************************************************/
+
+    /**
+     * flowOf 构建器定义了一个发射固定值集的 流
+     *
+     * .asFlow() 拓展函数，可以将各种集合与序列转换为流。
+     */
+    @Test
+    fun `test flow builder`() = runBlocking {
+        flowOf("123",123,34f,"789")
+            .onEach { delay(1000) }
+            .collect{
+                println(it)
+            }
+
+        (1..3).asFlow().collect{
+            println(it)
+        }
+
+    }
+
 
 
 
