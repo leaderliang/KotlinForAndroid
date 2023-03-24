@@ -1,10 +1,12 @@
 package com.android.kotlinpractice
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
+import kotlin.system.measureTimeMillis
 
 /**
  * TODO
@@ -19,17 +21,17 @@ class CoroutineFlow {
     /**
      * 返回多个值，但不是异步
      */
-     private fun simpleList(): List<Int> = listOf(2,3,5,6,7)
+    private fun simpleList(): List<Int> = listOf(2, 3, 5, 6, 7)
 
     /**
      * 返回了多个值，但是 属于同步
      * public fun <T> sequence(@BuilderInference block: suspend SequenceScope<T>.() -> Unit): Sequence<T> = Sequence { iterator(block) }
      */
     fun simpleSequence(): Sequence<Int> = sequence {
-        for (i in 0..6){
+        for (i in 0..6) {
 //            Thread.sleep(1000)  // 阻塞的，不是异步，线程被占用，假装在计算耗时的任务
 //            delay(1000) // 不能使用，因为 参数里只允许使用  SequenceScope<T>.() -> Unit 类型的   拓展方法 里支持的挂起函数，其他类型的挂起函数在这里不能使用
-             yield(i) // yield() 往序列 Sequence  里添加数据,  一次一个
+            yield(i) // yield() 往序列 Sequence  里添加数据,  一次一个
 
         }
     }
@@ -37,9 +39,9 @@ class CoroutineFlow {
     /**
      * 返回多个值，是异步，一次性返回了多个值
      */
-    private suspend fun simpleList2():List<Int> {
+    private suspend fun simpleList2(): List<Int> {
         delay(1000)
-        return listOf(2,3,6,7,8,0)
+        return listOf(2, 3, 6, 7, 8, 0)
     }
 
 
@@ -75,7 +77,7 @@ class CoroutineFlow {
     }
 
     @Test
-    fun `test multiple values with List `() = runBlocking{
+    fun `test multiple values with List `() = runBlocking {
         simpleList2().forEach {
             println(it)
         }
@@ -117,14 +119,14 @@ class CoroutineFlow {
     /**
      * 调换完位置后，会阻塞，暂不知原因 ？？？？？
      * 打印结果：
-        1
-        2
-        3
-        4
-        5
-        print 1
-        print 2
-        print 3
+    1
+    2
+    3
+    4
+    5
+    print 1
+    print 2
+    print 3
      *
      */
     @Test
@@ -169,13 +171,13 @@ class CoroutineFlow {
     fun `test flow is  code`() = runBlocking {
         val flow = simpleFlow2()
         println("call first collect")
-        flow.collect{
+        flow.collect {
             println(it)
         }
 
         println("call second collect")
 
-        flow.collect{
+        flow.collect {
             println(it)
         }
     }
@@ -213,7 +215,7 @@ class CoroutineFlow {
                 it % 2 == 0
             }.map {
                 "result $it"
-            }.collect{
+            }.collect {
                 println("collect  $it")
             }
     }
@@ -235,23 +237,118 @@ class CoroutineFlow {
      */
     @Test
     fun `test flow builder`() = runBlocking {
-        flowOf("123",123,34f,"789")
+        flowOf("123", 123, 34f, "789")
             .onEach { delay(1000) }
-            .collect{
+            .collect {
                 println(it)
             }
 
-        (1..3).asFlow().collect{
+        (1..3).asFlow().collect {
             println(it)
         }
 
     }
 
 
+    /**************************************************************************************************/
+
+    /**
+     * 背压测试案例
+     */
+    private fun simpleFlow8() = flow<Int> {
+//        val time = measureTimeMillis {
+        for (i in 1..5) {
+            delay(100)
+            emit(i)
+            println("emit $i , ${Thread.currentThread().name}")
+        }
+//        }
+//        println("simpleFlow8 spend time  $time")
+    }
 
 
+    /**
+     *
+     *
+     * 不用 flowOn，print
+     * collect value is  1  Test worker @coroutine#1
+    emit 1 Test worker @coroutine#1
+    collect value is  2  Test worker @coroutine#1
+    emit 2 Test worker @coroutine#1
+    collect value is  3  Test worker @coroutine#1
+    emit 3 Test worker @coroutine#1
+    collect time is  1244  ms
+     *
+     *
+     * use  <.flowOn(Dispatchers.Default)>,  print
+     * emit 1 DefaultDispatcher-worker-1 @coroutine#2
+    emit 2 DefaultDispatcher-worker-1 @coroutine#2
+    emit 3 DefaultDispatcher-worker-1 @coroutine#2
+    collect value is  1  Test worker @coroutine#1
+    collect value is  2  Test worker @coroutine#1
+    collect value is  3  Test worker @coroutine#1
+    collect time is  1085  ms
+     */
+    @Test
+    fun `test flow back pressure`() = runBlocking {
+        val time = measureTimeMillis {
+            simpleFlow8()
+//                .flowOn(Dispatchers.Main) // 在这里不能用；
+                .flowOn(Dispatchers.Default)// 用来更改流发射的上下文
+//                .buffer(50)
+                .conflate() // 合并发射项，不对每个值进行处理
+                .collectLatest {// 取消并重新发射最后一个值
+//                .collect {
+                    delay(300)
+                    println("collect value is  $it  , ${Thread.currentThread().name}")
+                }
+        }
+        println("collect time is  $time  ms")
+    }
 
 
+    /**************************************** 末端操作符 **********************************************************/
+    /**
+     *
+     * fold与reduce有一个重要且容易忽略的区别：
+        - reduce的返回值类型必须和集合的元素类型相符。
+        - fold的返回值类型则不受约束。
+     *
+     * 末端操作符 reduce
+     *
+     * 先平方，后相加
+     */
+    @Test
+    fun `terminal operator reduce`() = runBlocking {
+        val sum = (1..6).asFlow()
+            .map {
+                print("${it * it} ") // 1 4 9 16 25 36
+                it * it
+            }.reduce { x, y ->
+                x + y
+            }
+        println(sum) // 91
+    }
+
+    /**
+     * 末端操作符 fold
+     */
+    @Test
+    fun `terminal operator fold`() = runBlocking {
+        val sum = (1..6).asFlow()
+            .map {
+                it * it
+            }.fold(StringBuilder()){
+                x:StringBuilder,
+                y : Int ->
+                x.append(" $y")
+            }
+
+        println("sum  $sum") // sum   1 4 9 16 25 36
+    }
+
+
+    /**************************************** 末端操作符 **********************************************************/
 
 
 }
