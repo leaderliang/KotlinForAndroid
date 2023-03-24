@@ -313,6 +313,16 @@ class CoroutineFlow {
      * fold与reduce有一个重要且容易忽略的区别：
         - reduce的返回值类型必须和集合的元素类型相符。
         - fold的返回值类型则不受约束。
+
+    reduce : 压缩
+    fold : 合拢，折叠
+
+    两个函数都是对集合/区间的遍历，只是遍历完成之后能得到一个结果。
+
+    压缩和折叠的意思，大家可以理解为，
+    压缩成一个值【类型必须和集合元素的类型一致】。
+    或者将集合/区间折叠成一个新的对象【对象的类型，可以与集合元素的类型无关】，
+
      *
      * 末端操作符 reduce
      *
@@ -332,6 +342,8 @@ class CoroutineFlow {
 
     /**
      * 末端操作符 fold
+     *
+     * 将 区间的数通过 map 进行平方后，再拼接成 字符串
      */
     @Test
     fun `terminal operator fold`() = runBlocking {
@@ -345,6 +357,84 @@ class CoroutineFlow {
             }
 
         println("sum  $sum") // sum   1 4 9 16 25 36
+    }
+
+    /**
+     * 获取第一个（first)
+     */
+    @Test
+    fun `terminal operator first`() = runBlocking {
+        val sum = (1..6).asFlow()
+            .map {
+                it * it
+            }.first {
+                print("$it ") // 1 4 9
+                it > 8
+            }
+
+        println("sum  $sum") // sum  9
+    }
+
+    /**
+     * firstOrNull
+     * 获取第一个（first）值，没有则返回 null
+     */
+    @Test
+    fun `terminal operator firstOrNull() `() = runBlocking {
+        val sum = (1..6).asFlow()
+            .map {
+                it * it
+            }.firstOrNull{
+                it < 1
+            }
+
+        println("sum  $sum") // sum  null
+    }
+
+
+    /**
+     * 确保流发射单个（single）值的操作符
+     * // 使用前闭后开区间
+     */
+    @Test
+    fun `terminal operator single`() = runBlocking {
+        val sum = (0 until 1).asFlow()
+            .map {
+                it * it
+            }.single ()
+
+        println("sum  $sum") // sum  0
+    }
+
+
+    /**
+     * 转化为各种集合
+     */
+    @Test
+    fun `terminal operator toList`() = runBlocking {
+        val sum = (0 until 10).asFlow()
+            .map {
+                println(" $it")
+                it * it
+            }.toList ()
+
+        println("sum  $sum") // sum  [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+    }
+
+    /**
+     * 转化为各种集合
+     *
+     * downTo 倒序区间
+     */
+    @Test
+    fun `terminal operator toSet`() = runBlocking {
+        val sum = (10 downTo  0).asFlow()
+            .map {
+                print(" $it ") // 10  9  8  7  6  5  4  3  2  1  0
+                it * it
+            }.toSet ()
+
+        println("sum  $sum") //sum  [100, 81, 64, 49, 36, 25, 16, 9, 4, 1, 0]
     }
 
 
