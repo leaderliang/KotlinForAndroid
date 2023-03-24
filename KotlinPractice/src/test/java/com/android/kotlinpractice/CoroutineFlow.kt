@@ -441,4 +441,155 @@ class CoroutineFlow {
     /**************************************** 末端操作符 **********************************************************/
 
 
+    /**************************************** 组合操作符 Zip **********************************************************/
+
+    /**
+     * zip
+     * 打印：
+     *  1一
+        2二
+        3三
+        4④
+     */
+    @Test
+    fun `test zip`() = runBlocking {
+        val nums = (1..4).asFlow()
+        val strs = flowOf("一", "二", "三", "④")
+        nums.zip(strs) { T1, T2 ->
+            T1.toString() + T2
+        }.collect{
+            println(it)
+        }
+    }
+
+
+    /**
+     * nums 和 strs 是异步进行发送数据
+     */
+    @Test
+    fun `test zip with delay`() = runBlocking {
+        val nums = (1..4).asFlow().onEach {
+            delay(500)
+        }
+        val strs = flowOf("一", "二", "三", "④").onEach {
+            delay(1000)
+        }
+        val startTime = System.currentTimeMillis()
+        nums.zip(strs) { T1, T2 ->
+            "$T1 和 $T2  组合"
+        }.collect{
+            println("$it    ${System.currentTimeMillis()  - startTime} 耗时")
+        }
+    }
+
+
+
+    /**************************************** 组合操作符 Zip **********************************************************/
+
+
+
+    /**************************************** 展平流 **********************************************************/
+    /**
+     * requestFlow() 函数 和对应三个不同展平流函数 里的 delay 时间 设置不同的话，打印结果会不同，暂时还不理解这个 delay 的设置原理？？？？？
+     *
+     * 默认设置 requestFlow() 为 500，对应展平流函数里设置 100 是可以正常实现效果的；
+     */
+    fun requestFlow(i : Int) = flow<String> {
+        emit("发射 $i 第一条")
+        delay(100)
+        emit("发射 $i 第二条")
+    }
+
+
+    /**
+     * flatMapConcat  发射 1 第一条    122 耗时
+    flatMapConcat  发射 1 第二条    630 耗时
+    flatMapConcat  发射 2 第一条    737 耗时
+    flatMapConcat  发射 2 第二条    1238 耗时
+    flatMapConcat  发射 3 第一条    1340 耗时
+    flatMapConcat  发射 3 第二条    1842 耗时
+     */
+    @Test
+    fun `test flatMapConcat`() = runBlocking {
+        val startTime = System.currentTimeMillis()
+        (1..3).asFlow().onEach {
+            delay(100)
+        }
+//            .map { requestFlow(it) }
+            .flatMapConcat { requestFlow(it) }
+            .collect {
+                println("flatMapConcat  $it    ${System.currentTimeMillis() - startTime} 耗时")
+            }
+
+    }
+
+
+    /**
+     * flatMapMerge   发射 1 第一条    155 耗时
+    flatMapMerge   发射 2 第一条    253 耗时
+    flatMapMerge   发射 3 第一条    361 耗时
+    flatMapMerge   发射 1 第二条    663 耗时
+    flatMapMerge   发射 2 第二条    758 耗时
+    flatMapMerge   发射 3 第二条    868 耗时
+     */
+    @Test
+    fun `test flatMapMerge`() = runBlocking {
+        val startTime = System.currentTimeMillis()
+        (1..3).asFlow().onEach {
+            delay(100)
+        }
+//            .map { requestFlow(it) } // 说返回类型是  Flow<Flow<String>>
+            .flatMapMerge { requestFlow(it) }
+            .collect {
+                println("flatMapMerge   $it    ${System.currentTimeMillis() - startTime} 耗时")
+            }
+
+    }
+
+
+    /**
+     *
+     * 最新展平模式
+     * 类似 collectLatest
+     *
+     * 只取 最新的那一个，其他的都不要
+     * 前面的看时间间隔进行结合 , 中间的可能跳过某些元素 , 不要中间值 , 只重视最新的数据 ;
+     *
+     * requestFlow() 函数里的间隔时间必须要设置，和 `test flatMapLatest`() 函数里设置相同时间，打印结果是完全另一种情况，
+     * 目前设置的是 requestFlow() 100ms，`test flatMapLatest`() 200ms 可以正常实现以下打印结果
+     *
+     * flatMapLatest  发射 1 第一条    148 耗时
+    flatMapLatest  发射 2 第一条    304 耗时
+    flatMapLatest  发射 3 第一条    410 耗时
+    flatMapLatest  发射 4 第一条    516 耗时
+    flatMapLatest  发射 5 第一条    623 耗时
+    flatMapLatest  发射 6 第一条    732 耗时
+    flatMapLatest  发射 6 第二条    939 耗时
+     */
+    @Test
+    fun `test flatMapLatest`() = runBlocking {
+        val startTime = System.currentTimeMillis()
+        (1..6).asFlow()
+            .onEach { delay(100) }
+//            .map { requestFlow(it) } // 说返回类型是  Flow<Flow<String>>
+            .flatMapLatest { requestFlow(it) }
+            .collect {
+                println("flatMapLatest  $it    ${System.currentTimeMillis() - startTime} 耗时")
+            }
+
+    }
+
+
+
+
+    /**************************************** 展平流 **********************************************************/
+
+
+
+
+
+
+
+
+
 }
