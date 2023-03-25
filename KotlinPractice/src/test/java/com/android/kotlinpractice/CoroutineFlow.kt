@@ -12,7 +12,13 @@ import kotlin.system.measureTimeMillis
  * TODO
  * 返回多个值，集合-序列-挂起函数-Flow
  *
+ *
+ *
  * Note:
+ *
+ *
+ *  flowOn() 用来更改流发射的上下文，让耗时任务在对应的调度器中运行；（IO or Default）
+
  * @author dev.liang <a href="mailto:dev.liang@outlook.com">Contact me.</a>
  * @since 2023/02/22 15:43
  */
@@ -583,6 +589,203 @@ class CoroutineFlow {
 
 
     /**************************************** 展平流 **********************************************************/
+
+
+
+    /**************************************** 流的异常处理 **********************************************************/
+    /**
+     *  require(Boolean) throw IllegalArgumentException
+        check(Boolean) throw IllegalStateException
+        assert(Boolean) throw AssertionError
+
+        IllegalArgumentException: 传入的参数有问题
+        IllegalStateException：自身状态不对
+        AssertionError：和预估的不一样 （在后置条件的维基百科中其实就是这么定义的）
+
+
+     */
+    fun simpleFlowForException() = flow<Int> {
+        for (i in 0..3){
+            println("emit  $i")
+            emit(i)
+        }
+    }
+
+    /**
+     * 处理下游流异常
+     */
+    @Test
+    fun `test flow exception`() = runBlocking {
+        try {
+            simpleFlowForException().collect{
+                println(it)
+                check(it <= 1){
+                    "check(it <= 1)    collect   $it"
+                }
+            }
+        }catch (e: Exception) {
+            println("Caught  Exception $e")
+        }
+    }
+
+    /**
+     *  flowOn() 用来更改流发射的上下文
+        让耗时任务在对应的调度器中运行；（IO or Default）
+     */
+    @Test
+    fun `test flow exception2`() = runBlocking {
+        flow {
+            emit(1)
+            throw IllegalArgumentException("IllegalArgumentException")
+        }.catch {
+            println("Caught  $it")
+        }.flowOn(Dispatchers.Default).collect {
+            println(it)
+            println(Thread.currentThread().name)
+        }
+    }
+
+
+    /**
+     * 在上游异常中进行数据恢复
+     * 直接在 .catch 函数里重新发射数据；
+        补充设置默认值等场景；
+     */
+    @Test
+    fun `test flow exception3`() = runBlocking {
+        flow {
+            // 假设刚开始就出现异常了，导致后续的数据没有发送出去
+            throw IllegalArgumentException("IllegalArgumentException")
+            emit("正常要发射的数据")
+        }.catch {
+            println("Caught  $it")
+            emit("因为异常，补发的默认数据")
+        }.flowOn(Dispatchers.Default).collect {
+            println(it)
+            println(Thread.currentThread().name)
+        }
+    }
+
+
+
+    /**************************************** 流的异常处理 **********************************************************/
+
+
+
+    /**************************************** 流的完成 **********************************************************/
+    private fun simpleFlowForFinally() = (1..3).asFlow()
+
+    /**
+     * 1
+        2
+        3
+        Done
+     */
+    @Test
+    fun `test flow complete in finally`()  = runBlocking {
+        try {
+            simpleFlowForFinally().collect{
+                println(it)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }finally {
+            println("Done")
+        }
+    }
+
+    /**
+     * 1
+    2
+    3
+    Done
+     */
+    @Test
+    fun `test flow complete in onComplete`() = runBlocking {
+        simpleFlowForFinally()
+            .onCompletion {
+                println("Done")
+            }
+            .collect {
+                println(it)
+            }
+    }
+
+    private fun simpleFlowForOnComplete() = flow {
+        emit(1)
+        throw RuntimeException("run time exception")
+    }
+
+    /**
+     * 可以在 onCompletion 中获取到异常信息，但是不能捕获；
+     * 捕获需要使用 catch
+     */
+    @Test
+    fun `test flow complete in onComplete_`() = runBlocking {
+        simpleFlowForOnComplete()
+            .onCompletion {
+                if(it != null){
+                    println("flow completed exceptionally!") // onCompletion   java.lang.RuntimeException: run time exception
+                }
+                println("onCompletion   $it")
+            }
+            .collect {
+                println(it)
+            }
+    }
+
+    /**
+     * onCompletion 打印了异常信息，在 catch 中 捕获了上游异常；
+     * 打印
+        1
+        flow completed exceptionally!
+        onCompletion   java.lang.RuntimeException: run time exception
+        Caught java.lang.RuntimeException: run time exception
+     */
+    @Test
+    fun `test flow complete in onComplete use catch`() = runBlocking {
+        simpleFlowForOnComplete()
+            .onCompletion {
+                if(it != null){
+                    println("flow completed exceptionally!") // onCompletion   java.lang.RuntimeException: run time exception
+                }
+                println("onCompletion   $it")
+            }
+            .catch {
+                println("Caught $it")
+            }
+            .collect {
+                println(it)
+            }
+    }
+
+
+    /**
+     * onCompletion 里也可以接收到下游报出的异常信息，但是捕获的话，需要使用 try catch 代码块
+     */
+    @Test
+    fun `test flow complete in onComplete use catch_ `() = runBlocking {
+        simpleFlowForFinally()
+            .onCompletion {
+                if(it != null){
+                    println("flow completed exceptionally!")
+                }
+                println("onCompletion   $it")
+            }
+            .collect {
+                println(it)
+                check(it <= 1){
+                    "collected $it"
+                }
+            }
+    }
+
+
+
+
+
+
+    /**************************************** 流的完成 **********************************************************/
 
 
 
