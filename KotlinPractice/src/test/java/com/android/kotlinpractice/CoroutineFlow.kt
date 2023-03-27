@@ -718,7 +718,7 @@ class CoroutineFlow {
 
     /**
      * 可以在 onCompletion 中获取到异常信息，但是不能捕获；
-     * 捕获需要使用 catch
+     * 捕获需要使用 catch  函数
      */
     @Test
     fun `test flow complete in onComplete_`() = runBlocking {
@@ -736,7 +736,7 @@ class CoroutineFlow {
 
     /**
      * onCompletion 打印了异常信息，在 catch 中 捕获了上游异常；
-     * 打印
+     * 打印：
         1
         flow completed exceptionally!
         onCompletion   java.lang.RuntimeException: run time exception
