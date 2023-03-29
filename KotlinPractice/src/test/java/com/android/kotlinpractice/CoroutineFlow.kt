@@ -1,10 +1,8 @@
 package com.android.kotlinpractice
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.system.measureTimeMillis
 
@@ -234,7 +232,7 @@ class CoroutineFlow {
    collect result 8
    collect result 10*/
 
-    /**************************************************************************************************/
+    /****************************************flowOf asFlow() **********************************************************/
 
     /**
      * flowOf 构建器定义了一个发射固定值集的 流
@@ -256,7 +254,34 @@ class CoroutineFlow {
     }
 
 
-    /**************************************************************************************************/
+    /****************************************flowOf asFlow() **********************************************************/
+
+
+    /***************************************** launchIn() *********************************************************/
+
+    private fun events() = (1..3).asFlow().onEach {
+        delay(300)
+    }.flowOn(Dispatchers.Default)
+
+
+    /**
+     * 使用 launchIn 替换 collect 可以在单独的协程中启动流的收集。
+     */
+    @Test
+    fun `test flow launch`() = runBlocking<Unit> {
+        val job = events()
+            .onEach {
+            println("events  $it   ${Thread.currentThread().name}")
+        }
+//            .collect{ println(it) }
+//            .launchIn(Dispatchers.IO)
+            .launchIn(this)
+
+//        delay(500)
+//        job.cancelAndJoin()
+    }
+
+    /***************************************** launchIn() *********************************************************/
 
     /**
      * 背压测试案例
@@ -765,6 +790,7 @@ class CoroutineFlow {
      */
     @Test
     fun `test flow complete in onComplete use catch_ `() = runBlocking {
+
         simpleFlowForFinally()
             .onCompletion {
                 if(it != null){

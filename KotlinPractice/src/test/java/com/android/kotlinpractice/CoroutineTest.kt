@@ -19,6 +19,33 @@ import kotlin.time.measureTime
 
 class CoroutineTest {
 
+    /**
+     * 调度器与线程
+     * https://www.kotlincn.net/docs/reference/coroutines/coroutine-context-and-dispatchers.html
+     *
+     * 它执行后得到了如下输出（也许顺序会有所不同）：
+    Unconfined            : I'm working in thread Test worker @coroutine#3
+    Default               : I'm working in thread DefaultDispatcher-worker-1 @coroutine#4
+    newSingleThreadContext: I'm working in thread MyOwnThread @coroutine#5
+    main runBlocking      : I'm working in thread Test worker @coroutine#2
+     */
+    @Test
+    fun `test thread`() = runBlocking<Unit> {
+        launch { // 运行在父协程的上下文中，即 runBlocking 主协程
+            println("main runBlocking      : I'm working in thread ${Thread.currentThread().name}")
+        }
+        launch(Dispatchers.Unconfined) { // 不受限的——将工作在主线程中
+            println("Unconfined            : I'm working in thread ${Thread.currentThread().name}")
+        }
+        launch(Dispatchers.Default) { // 将会获取默认调度器
+            println("Default               : I'm working in thread ${Thread.currentThread().name}")
+        }
+        launch(newSingleThreadContext("MyOwnThread")) { // 将使它获得一个新的线程
+            println("newSingleThreadContext: I'm working in thread ${Thread.currentThread().name}")
+        }
+    }
+
+
     // launch 和 async 的用法
     @Test
     fun `test coroutine builder launch and async`() = runBlocking {
@@ -397,7 +424,6 @@ class CoroutineTest {
     }
 
 
-
     /**
      * nonCancelable
      */
@@ -438,7 +464,7 @@ class CoroutineTest {
                 }
             } finally {
                 println("finally: release resource ")
-                withContext(NonCancellable){
+                withContext(NonCancellable) {
                     delay(1000)
                     println("test nonCancelable")
                 }
@@ -458,7 +484,7 @@ class CoroutineTest {
      */
     @Test
     fun `test timeout with coroutine`() = runBlocking {
-        withTimeout(1300){
+        withTimeout(1300) {
             repeat(1000) {
                 println("job: I'm sleeping ${it}....")
                 delay(500)
@@ -473,13 +499,13 @@ class CoroutineTest {
      */
     @Test
     fun `test timeout with coroutine `() = runBlocking {
-         val result = withTimeoutOrNull(1300){
+        val result = withTimeoutOrNull(1300) {
             repeat(1000) {
                 println("job: I'm sleeping ${it}....")
                 delay(500)
             }
-             "可以添加任意类型返回值，timeout 的话，就会返回 null"
-        }  ?: "超时返回的值"
+            "可以添加任意类型返回值，timeout 的话，就会返回 null"
+        } ?: "超时返回的值"
 
         println("result is $result")
     }
